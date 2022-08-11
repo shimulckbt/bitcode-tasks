@@ -11,7 +11,7 @@ class AuthorizationController extends Controller
 {
     use HasUrlConstant;
 
-    public function show()
+    public function showForm()
     {
         if (session()->has('apiToken')) {
             return redirect()->route('all.boards');
@@ -20,7 +20,7 @@ class AuthorizationController extends Controller
     }
 
     /**
-     * authorizeMe
+     * getAuthorized
      *
      * @param  Request $request
      * @return void

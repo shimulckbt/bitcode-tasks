@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Report\ReportController;
 use App\Http\Controllers\Trello\Authorization\AuthorizationController;
+use App\Http\Controllers\Trello\Board\BoardController;
+use App\Http\Controllers\Trello\Card\CardController;
+use App\Http\Controllers\Trello\List\ListController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,24 +24,22 @@ Route::get('/', function () {
 
 Route::get('/generate-report', [ReportController::class, 'generateReport'])->name('report.generate');
 
-Route::get('/authorizing-a-client', [AuthorizationController::class, 'show'])->name('authorization.form');
+Route::get('/authorizing-a-client', [AuthorizationController::class, 'showForm'])->name('authorization.form');
 Route::post('/authorizing-a-client-request', [AuthorizationController::class, 'getAuthorized'])->name('authorization.request');
-Route::get('/boards', [AuthorizationController::class, 'getAllBoards'])->name('all.boards');
-
-Route::get('/create-board', [AuthorizationController::class, 'createBoard'])->name('create.board');
-Route::post('/store-board', [AuthorizationController::class, 'storeBoard'])->name('store.board');
-
-Route::get('/edit-board/{id}', [AuthorizationController::class, 'editBoard'])->name('edit.board');
-Route::post('/update-board/{id}', [AuthorizationController::class, 'updateBoard'])->name('update.board');
-Route::get('/delete-board/{id}', [AuthorizationController::class, 'deleteBoard'])->name('delete.board');
-
-Route::get('/boards/all-lists/{id}', [AuthorizationController::class, 'getAllLists'])->name('all.lists');
-Route::get('/boards/lists/create-list', [AuthorizationController::class, 'createList'])->name('create.list');
-Route::post('/boards/lists/store-list', [AuthorizationController::class, 'storeList'])->name('store.list');
-
-Route::get('/boards/lists/all-cards/{id}', [AuthorizationController::class, 'getAllCards'])->name('all.cards');
-Route::get('/boards/lists/show-card/{id}', [AuthorizationController::class, 'getSingleCard'])->name('show.card');
-Route::get('/boards/lists/create-card', [AuthorizationController::class, 'createCard'])->name('create.card');
-Route::post('/boards/lists/store-card', [AuthorizationController::class, 'storeCard'])->name('store.card');
-
 Route::get('/logout', [AuthorizationController::class, 'logout'])->name('logout');
+
+Route::get('/boards', [BoardController::class, 'getAllBoards'])->name('all.boards');
+Route::get('/create-board', [BoardController::class, 'createBoard'])->name('create.board');
+Route::post('/store-board', [BoardController::class, 'storeBoard'])->name('store.board');
+Route::get('/edit-board/{id}', [BoardController::class, 'editBoard'])->name('edit.board');
+Route::post('/update-board/{id}', [BoardController::class, 'updateBoard'])->name('update.board');
+Route::get('/delete-board/{id}', [BoardController::class, 'deleteBoard'])->name('delete.board');
+
+Route::get('/boards/all-lists/{id}', [ListController::class, 'getAllLists'])->name('all.lists');
+Route::get('/boards/lists/create-list', [ListController::class, 'createList'])->name('create.list');
+Route::post('/boards/lists/store-list', [ListController::class, 'storeList'])->name('store.list');
+
+Route::get('/boards/lists/all-cards/{id}', [CardController::class, 'getAllCards'])->name('all.cards');
+Route::get('/boards/lists/show-card/{id}', [CardController::class, 'getSingleCard'])->name('show.card');
+Route::get('/boards/lists/create-card', [CardController::class, 'createCard'])->name('create.card');
+Route::post('/boards/lists/store-card', [CardController::class, 'storeCard'])->name('store.card');
