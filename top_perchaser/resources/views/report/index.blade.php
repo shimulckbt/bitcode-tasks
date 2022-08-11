@@ -20,18 +20,14 @@
                                 {{-- <th scope="row">{{ $loop->iteration }} </th> --}}
                                 <td>{{ $topPurchaser->product->product_name }}</td>
                                 <td>{{ $topPurchaser->customer->name }}</td>
-                                <td>{{ $topPurchaser->purchase_quantity }}</td>
+                                <td>{{ $topPurchaser->total_purchase_quantity }}</td>
                                 <td>{{ $topPurchaser->product->product_price }}</td>
                                 <td>{{ $topPurchaser->total_purchase }}</td>
-                                {{-- <td>{{ $topPurchaser->product->product_price * $topPurchaser->total_quantity }}</td> --}}
                             </tr>
                         @endforeach
                         <tr>
-                            {{-- <th scope="row">{{ $loop->iteration }} </th> --}}
-                            {{-- <td>{{ $topPurchaser->product->product_name }}</td> --}}
-                            {{-- <td>{{ $topPurchaser->customer->name }}</td> --}}
                             <td colspan="2" class="text-end">Gross Total</td>
-                            <td>{{ $grossTotalQuantity }}</td>
+                            <td>{{ $grossTotalPurchaseQuantity }}</td>
                             <td>{{ number_format($grossTotalProductPrice, 2) }}</td>
                             <td>{{ number_format($grossTotalPurchaseAmount, 2) }}</td>
                         </tr>

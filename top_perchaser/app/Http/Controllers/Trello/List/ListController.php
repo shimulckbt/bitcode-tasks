@@ -11,6 +11,12 @@ class ListController extends Controller
 {
     use HasUrlConstant;
 
+    /**
+     * getAllLists
+     *
+     * @param $id
+     * @return view
+     */
     public function getAllLists($id)
     {
         # https://api.trello.com/1/boards/{id}/lists?key=APIKey&token=APIToken
@@ -20,6 +26,7 @@ class ListController extends Controller
         $allLists = json_decode($response->body(), true);
         // $idBoard = $allLists[0]['idBoard'];
         session(['idBoard' => $id]);
+        $boardID = $id;
         return view('trello.boards.lists.all-lists', compact('allLists'));
     }
 
@@ -28,6 +35,12 @@ class ListController extends Controller
         return view('trello.boards.lists.create-list');
     }
 
+    /**
+     * storeList
+     *
+     * @param  Request $request
+     * @return view
+     */
     public function storeList(Request $request)
     {
         $request->validate([
@@ -41,7 +54,7 @@ class ListController extends Controller
 
             return redirect()->route('all.lists', session('idBoard'));
         } catch (\Throwable $th) {
-            $th->getMessage();
+            dd($th->getMessage());
         }
     }
 }

@@ -11,9 +11,16 @@ class BoardController extends Controller
 {
     use HasUrlConstant;
 
+    /**
+     * getAllBoards
+     *
+     * @return view
+     */
     public function getAllBoards()
     {
         try {
+            # https://api.trello.com/1/organizations/{id}/boards?key=APIKey&token=APIToken
+
             $response = Http::get($this->baseUrl . $this->organizationUrl . session('memberId') . '/boards' . '/?key=' . session('apiKey') . '&token=' . session('apiToken'));
 
             $allBoards = json_decode($response->body(), true);
@@ -24,11 +31,22 @@ class BoardController extends Controller
         }
     }
 
+    /**
+     * createBoard
+     *
+     * @return view
+     */
     public function createBoard()
     {
         return view('trello.boards.create-board');
     }
 
+    /**
+     * storeBoard
+     *
+     * @param  Request $request
+     * @return view
+     */
     public function storeBoard(Request $request)
     {
         $request->validate([
@@ -36,6 +54,8 @@ class BoardController extends Controller
         ]);
 
         try {
+            # https://api.trello.com/1/boards/?name={name}&key=APIKey&token=APIToken
+
             $response = Http::post($this->baseUrl . 'boards/' . '?name=' . $request->name . '&desc=' . $request->description . '&key=' . session('apiKey') . '&token=' . session('apiToken'));
             return redirect()->route('all.boards');
         } catch (\Throwable $th) {
@@ -43,6 +63,12 @@ class BoardController extends Controller
         }
     }
 
+    /**
+     * editBoard
+     *
+     * @param $id
+     * @return view
+     */
     public function editBoard($id)
     {
         try {
@@ -51,26 +77,41 @@ class BoardController extends Controller
             $data = json_decode($response->body());
             return view('trello.boards.edit-board', compact('data'));
         } catch (\Throwable $th) {
-            $th->getMessage();
+            dd($th->getMessage());
         }
     }
 
+    /**
+     * updateBoard
+     *
+     * @param  Request $request
+     * @param $id
+     * @return view
+     */
     public function updateBoard(Request $request, $id)
     {
         $request->validate([
             'name' => 'required',
         ]);
 
+        # https://api.trello.com/1/boards/{id}?name=&desc=&key=APIKey&token=APIToken
+
         $response = Http::put($this->baseUrl . 'boards/' . $id . '?name=' . $request->name . '&desc=' . $request->description . '&key=' . session('apiKey') . '&token=' . session('apiToken'));
 
         return redirect()->route('all.boards');
     }
 
+    /**
+     * deleteBoard
+     *
+     * @param $id
+     * @return view
+     */
     public function deleteBoard($id)
     {
         # https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken
         $response = Http::delete($this->baseUrl . 'boards/' . $id . '?key=' . session('apiKey') . '&token=' . session('apiToken'));
-        // dd($response->status());
+
         return redirect()->route('all.boards');
     }
 }

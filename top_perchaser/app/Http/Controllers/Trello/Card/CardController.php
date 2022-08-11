@@ -11,7 +11,13 @@ class CardController extends Controller
 {
     use HasUrlConstant;
 
-    public function getAllCards($id)
+    /**
+     * getAllCards
+     *
+     * @param $id
+     * @return view
+     */
+    public function getAllCards($id, $idBoard)
     {
         # https://api.trello.com/1/lists/{id}/cards?key=APIKey&token=APIToken
         $response = Http::get($this->baseUrl . 'lists/' . $id . '/cards' . '?key=' . session('apiKey') . '&token=' . session('apiToken'));
@@ -20,10 +26,17 @@ class CardController extends Controller
 
         // $idList = $allCards[0]['idList'];
         session(['idList' => $id]);
-
-        return view('trello.boards.cards.all-cards', compact('allCards'));
+        // dd($id);
+        $boardID = $idBoard;
+        return view('trello.boards.cards.all-cards', compact('allCards', 'boardID'));
     }
 
+    /**
+     * getSingleCard
+     *
+     * @param $id
+     * @return view
+     */
     public function getSingleCard($id)
     {
         # https://api.trello.com/1/cards/{id}?key=APIKey&token=APIToken
@@ -40,6 +53,12 @@ class CardController extends Controller
         return view('trello.boards.cards.create-card');
     }
 
+    /**
+     * storeCard
+     *
+     * @param Request $request
+     * @return view
+     */
     public function storeCard(Request $request)
     {
         $request->validate([

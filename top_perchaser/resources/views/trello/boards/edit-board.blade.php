@@ -2,7 +2,6 @@
 @section('content')
     <div class="container pt-5">
         <div class="items-center">
-            {{-- <form method="POST" action="{{ route('update.board') }}"> --}}
             <form method="POST" action="{{ route('update.board', $data->id) }}">
                 @csrf
                 <div class="mb-3">

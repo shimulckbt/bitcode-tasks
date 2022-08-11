@@ -11,6 +11,11 @@ class AuthorizationController extends Controller
 {
     use HasUrlConstant;
 
+    /**
+     * showForm
+     *
+     * @return view
+     */
     public function showForm()
     {
         if (session()->has('apiToken')) {
@@ -23,7 +28,7 @@ class AuthorizationController extends Controller
      * getAuthorized
      *
      * @param  Request $request
-     * @return void
+     * @return view
      */
     public function getAuthorized(Request $request)
     {
@@ -36,6 +41,8 @@ class AuthorizationController extends Controller
         session(['apiToken' => $request->apiToken]);
 
         try {
+            # https://api.trello.com/1/members/{id}/organizations?key=APIKey&token=APIToken
+
             $response = Http::get($this->baseUrl . $this->meUrl . $this->organizationUrl . '/?key=' . session('apiKey') . '&token=' . session('apiToken'));
 
             $arrayResponse = json_decode($response->body());
@@ -49,6 +56,11 @@ class AuthorizationController extends Controller
         }
     }
 
+    /**
+     * logout
+     *
+     * @return view
+     */
     public function logout()
     {
         session()->forget(['apiKey', 'apiToken', 'memberId', 'idBoard', 'idList']);

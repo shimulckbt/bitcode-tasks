@@ -8,7 +8,9 @@
                     <div class="card" style="width: 18rem;">
                         <div class="card-body">
                             <h5 class="card-title">{{ $allList['name'] }}</h5>
-                            <a href="{{ route('all.cards', $allList['id']) }}" class="btn btn-primary">ALL Cards</a>
+                            <a href="{{ url("/boards/lists/all-cards/{$allList['id']}/{$allList['idBoard']}") }}"
+                                class="btn btn-primary">ALL
+                                Cards</a>
                         </div>
                     </div>
                 </div>

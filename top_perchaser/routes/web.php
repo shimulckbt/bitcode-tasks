@@ -22,10 +22,6 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-// if (!session()->has('apiToken')) {
-//     return redirect()->route('authorization.form')->with('message', 'You are trying to access without authorization, please enter your AppKey and Token..');
-// }
-
 Route::get('/generate-report', [ReportController::class, 'generateReport'])->name('report.generate');
 
 Route::get('/authorizing-a-client', [AuthorizationController::class, 'showForm'])->name('authorization.form');
@@ -47,7 +43,7 @@ Route::group(
         Route::get('/boards/lists/create-list', [ListController::class, 'createList'])->name('create.list');
         Route::post('/boards/lists/store-list', [ListController::class, 'storeList'])->name('store.list');
 
-        Route::get('/boards/lists/all-cards/{id}', [CardController::class, 'getAllCards'])->name('all.cards');
+        Route::get('/boards/lists/all-cards/{listID}/{boardID}', [CardController::class, 'getAllCards'])->name('all.cards');
         Route::get('/boards/lists/show-card/{id}', [CardController::class, 'getSingleCard'])->name('show.card');
         Route::get('/boards/lists/create-card', [CardController::class, 'createCard'])->name('create.card');
         Route::post('/boards/lists/store-card', [CardController::class, 'storeCard'])->name('store.card');
