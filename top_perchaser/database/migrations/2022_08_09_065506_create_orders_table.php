@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->integer('order_no')->unique();
             $table->integer('purchase_quantity');
+            $table->decimal('product_price');
             $table->dateTime('created_at');
         });
     }

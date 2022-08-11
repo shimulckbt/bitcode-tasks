@@ -2,7 +2,7 @@
 
 namespace App\Models\Order;
 
-use App\Models\Customer;
+use App\Models\Customer\Customer;
 use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,7 +23,7 @@ class Order extends Model
         'created_at',
     ];
 
-    public function user()
+    public function customer()
     {
         return $this->belongsTo(Customer::class);
     }
