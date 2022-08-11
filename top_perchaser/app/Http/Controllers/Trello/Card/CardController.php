@@ -15,12 +15,12 @@ class CardController extends Controller
     {
         # https://api.trello.com/1/lists/{id}/cards?key=APIKey&token=APIToken
         $response = Http::get($this->baseUrl . 'lists/' . $id . '/cards' . '?key=' . session('apiKey') . '&token=' . session('apiToken'));
-        // dd(json_decode($response->body()));
+
         $allCards = json_decode($response->body(), true);
-        // dd(json_decode($response->body(), true));
+
         // $idList = $allCards[0]['idList'];
         session(['idList' => $id]);
-        // dd(session()->all());
+
         return view('trello.boards.cards.all-cards', compact('allCards'));
     }
 
@@ -31,7 +31,7 @@ class CardController extends Controller
         $response = Http::get($this->baseUrl . 'cards/' . $id . '?key=' . session('apiKey') . '&token=' . session('apiToken'));
 
         $singleCard = json_decode($response->body(), true);
-        // dd(json_decode($response->body(), true));
+
         return view('trello.boards.cards.show-single-card', compact('singleCard'));
     }
 
@@ -42,7 +42,10 @@ class CardController extends Controller
 
     public function storeCard(Request $request)
     {
-        // dd($request->all());
+        $request->validate([
+            'name' => 'required',
+        ]);
+
         # https://api.trello.com/1/cards?idList=5abbe4b7ddc1b351ef961414&key=APIKey&token=APIToken
         try {
             $response = Http::post($this->baseUrl . 'cards' . '?name=' . $request->name . '&desc=' . $request->description . '&idList=' . session('idList') . '&key=' . session('apiKey') . '&token=' . session('apiToken'));

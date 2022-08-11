@@ -31,11 +31,10 @@ class BoardController extends Controller
 
     public function storeBoard(Request $request)
     {
-        // dd($request->all());
         $request->validate([
             'name' => 'required',
-            'description' => 'required',
         ]);
+
         try {
             $response = Http::post($this->baseUrl . 'boards/' . '?name=' . $request->name . '&desc=' . $request->description . '&key=' . session('apiKey') . '&token=' . session('apiToken'));
             return redirect()->route('all.boards');
@@ -47,7 +46,7 @@ class BoardController extends Controller
     public function editBoard($id)
     {
         try {
-            // https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken
+            # https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken
             $response = Http::get($this->baseUrl . 'boards/' . $id . '?key=' . session('apiKey') . '&token=' . session('apiToken'));
             $data = json_decode($response->body());
             return view('trello.boards.edit-board', compact('data'));
@@ -58,8 +57,12 @@ class BoardController extends Controller
 
     public function updateBoard(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required',
+        ]);
+
         $response = Http::put($this->baseUrl . 'boards/' . $id . '?name=' . $request->name . '&desc=' . $request->description . '&key=' . session('apiKey') . '&token=' . session('apiToken'));
-        // dd($response->status());
+
         return redirect()->route('all.boards');
     }
 

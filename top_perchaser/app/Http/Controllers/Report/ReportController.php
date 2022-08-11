@@ -21,18 +21,17 @@ class ReportController extends Controller
     public function generateReport()
     {
         try {
-            $dataSet = Http::get('https://raw.githubusercontent.com/Bit-Code-Technologies/mockapi/main/purchase.json');
-            $twoDimensionArray = json_decode($dataSet, true);
-            // dd($twoDimensionArray);
+            $response = Http::get('https://raw.githubusercontent.com/Bit-Code-Technologies/mockapi/main/purchase.json');
+            $responseBody = json_decode($response, true);
 
             date_default_timezone_set('Asia/Dhaka');
 
             if (empty(Order::count())) {
-                $data = $this->reportService->getReport($twoDimensionArray);
+                $data = $this->reportService->getReport($responseBody);
                 return view('report.index', $data);
             } else {
                 Artisan::call('migrate:fresh');
-                $data = $this->reportService->getReport($twoDimensionArray);
+                $data = $this->reportService->getReport($responseBody);
                 return view('report.index', $data);
             }
         } catch (\Throwable $th) {
