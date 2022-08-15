@@ -41,13 +41,13 @@ class AuthorizationController extends Controller
         session(['apiToken' => $request->apiToken]);
 
         try {
-            # https://api.trello.com/1/members/{id}/organizations?key=APIKey&token=APIToken
+            # https://api.trello.com/1/members/me/?key={yourAPIKey}&token={yourAPIToken}
 
             $response = Http::get($this->baseUrl . $this->meUrl . $this->organizationUrl . '/?key=' . session('apiKey') . '&token=' . session('apiToken'));
 
-            $arrayResponse = json_decode($response->body());
+            $responseBody = json_decode($response->body());
 
-            $memberId = $arrayResponse[0]->id;
+            $memberId = $responseBody[0]->id;
 
             session(['memberId' => $memberId]);
             return redirect()->route('all.boards');
